@@ -11,4 +11,4 @@ This matlab repo is used for visualizing the FMCW radar features in real time. A
 5. visualization.m (plot all features)
 
 # Our setup.
-<br/><img src="fig/moving_robotic_hand.fig" width="100%" height="100%">
+<br/><img src="fig/moving_robotic_hand.fig" width="100" height="100"/>
