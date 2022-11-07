@@ -1,0 +1,43 @@
+function [process_data, range_fft, doppler_fft] = feature_extract(raw_data, adc, chirp, tx, rx)
+% create TX1-4
+process_data = permute(reshape(raw_data, rx, adc, tx, chirp, []), [5 4 2 3 1]);
+process_data = reshape(process_data, [], chirp, adc, tx*rx);
+% create range-azimuth profile
+pad_mul = 5;
+range_fft = fft(process_data, adc*pad_mul, 3);
+doppler_fft = fft(range_fft, [], 2);
+doppler_fft = fftshift(doppler_fft, 2);
+angle_fft = fft(doppler_fft);
+% fft_tx1 = fft(tx1, [], 1);
+% fft_tx1_peak = abs(fft_tx1);
+% CFAR detector
+% cfar = phased.CFARDetector('NumTrainingCells',20,'NumGuardCells',4);
+% cfar.ThresholdOutputPort = true;
+% 
+% j = 1;
+% for i = 1:16:13200
+%     train_cell = fft_tx1_peak(:,i);
+%     [detected, th] = cfar(train_cell, 1:length(train_cell));
+%     index = round(mean(find(detected(1:25))));
+%     phase_range(j) = unwrap(angle(fft_tx1(index,i)));
+%     j = j+1;
+% end
+% 
+% m = 1;
+% for n = 1:16:13200
+%     figure(1);
+%     plot(phase_range);
+%     hold on
+%     y = ylim; % current y-axis limits
+%     plot([m m],[y(1) y(2)]);
+%     hold off
+%     figure(2);
+%     plot(fft_tx1_peak(1:25,n));
+%     m = m+1;
+%     figure(3);
+%     plot(unwrap(angle(fft_tx1(index,n:n+15))));
+%     ylim([-3.2 3.2]);
+%     pause(0.1)
+% end
+end
+

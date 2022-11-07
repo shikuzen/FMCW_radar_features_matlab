@@ -1,0 +1,53 @@
+function visualization(process_data, range_fft, doppler_fft, angle_fft, thres_all, ranges, angles, selected_range_bin)
+
+chirp_select = 1;
+rxtx_select = 1;
+
+for idx = 1:size(range_fft, 1)
+
+    subplot(3,3,1);
+    imagesc(mag2db(squeeze(abs(range_fft(idx, chirp_select, :, :)))));
+    title('Range-Chirp Image');
+    xlabel('chirps number');
+    ylabel('range in cm');
+    set(gca, 'YDir', 'normal')
+    subplot(3,3,2);
+    imagesc(mag2db(squeeze(abs(doppler_fft(idx, :, :, rxtx_select)))));
+    title('Range-Doppler Image');
+    xlabel('range in cm');
+    ylabel('doppler velocity');
+    set(gca, 'YDir', 'normal')
+    subplot(3,3,4);
+    imagesc(angles, ranges, mag2db(squeeze(mean(abs(angle_fft(idx, :, :, :)), 2))));
+    title('Range-Angle Image');
+    xlabel('angle in \circ');
+    ylabel('range in cm')
+    set(gca, 'YDir', 'normal')
+    subplot(3,3,5);
+    plot(squeeze(real(process_data(idx, chirp_select, :, rxtx_select))));
+    hold on
+    plot(squeeze(imag(process_data(idx, chirp_select, :, rxtx_select))));
+    hold off
+    subplot(3,3,6);
+    plot(squeeze(mean(abs(range_fft(idx, :, :, rxtx_select)),2)));
+    hold on
+    plot(thres_all(idx, :));
+    hold off
+    subplot(3,3,7);
+    plot(unwrap(angle(range_fft(idx, :, selected_range_bin(1,idx), rxtx_select))));
+    subplot(3,3,8);
+    plot(unwrap(angle(range_fft(:, chirp_select, selected_range_bin(1,idx), rxtx_select))));
+    hold on
+    y = ylim; % current y-axis limits
+    plot([idx idx],[y(1) y(2)]);
+    hold off
+    subplot(3,3,9);
+    txt = ['Frame number = ',num2str(idx)];
+    text(0, 0.5, txt, 'color', 'r')
+    delete(txt)
+    drawnow
+    pause(0.05);
+end
+
+end
+
