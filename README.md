@@ -11,6 +11,8 @@ This matlab repo is used for visualizing the FMCW radar features in real time. A
 5. visualization.m (plot all features)
 
 # Our setup.
+The FMCW radar data was collected while a square acrylic plate was moved by jaco-arm.
+
 <img src="./pic/moving_robotic_hand.gif" width="60%" height="60%">
 
 "link to download data (test_range_3tx.bin)", [Link](https://drive.google.com/file/d/14t9Gj5UK9gnhOGA3Ep9-ggn1aVUkzCPw/view?usp=share_link)
